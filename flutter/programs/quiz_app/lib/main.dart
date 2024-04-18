@@ -1,47 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/pages/home_page.dart';
 
 void main() {
-  runApp(
-    const MaterialApp(
-      home: SafeArea(
-        child: MyScaffold(),
-      ),
-    ),
-  );
+  runApp(const MyApp());
 }
 
-class MyAppBar extends StatelessWidget {
-  const MyAppBar({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Row(
-        children: [
-          IconButton(
-            onPressed: null,
-            icon: Icon(Icons.menu),
-            tooltip: "Navigation Menu",
-          ),
-          Expanded(child:   )
-        ],
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-    );
-  }
-}
-
-class MyScaffold extends StatelessWidget {
-  const MyScaffold({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: [
-          MyAppBar(),
-          Text("Hello World"),
-        ],
-      ),
+      home: HomePage(),
     );
   }
 }
