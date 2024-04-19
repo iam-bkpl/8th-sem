@@ -1,9 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/components/my_button.dart';
 import 'package:quiz_app/pages/question.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,6 +33,21 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+  void handleQuestionChange(BuildContext context) {
+    if (currentIndex < _questions.length - 1) {
+      setState(() {
+        currentIndex += 1;
+      });
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+          title: Text("Congratulation you Completed the task"),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +59,13 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Question no $currentIndex",
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
             Question(
               question: _questions[currentIndex]["question"].toString(),
             ),
@@ -52,13 +75,33 @@ class _HomePageState extends State<HomePage> {
             ...(_questions[currentIndex]['answers'] as List<String>)
                 .map((answer) {
               return MyButton(
-                  text: answer.toString(),
+                text: answer.toString(),
+                onPressed: () => handleQuestionChange(context),
+              );
+            }).toList(),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                MyButton(
+                  backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                  text: "Reset",
                   onPressed: () {
                     setState(() {
-                      currentIndex += 1;
+                      currentIndex = 0;
                     });
-                  });
-            }).toList(),
+                  },
+                ),
+                MyButton(
+                  text: "Save",
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  onPressed: () {},
+                )
+              ],
+            )
           ],
         ),
       ),
