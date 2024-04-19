@@ -10,10 +10,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int currentIndex = 0;
+  // final Map<String, String> _selectedAnswers = [];
+
   static const _questions = [
     {
       "question": "What is your favourite Color",
       "answers": ["Green", "Red", "Blue", "Pink"]
+    },
+    {
+      "question": "What is your favourite Food",
+      "answers": ["Dal", "Bhat", "Tarkari", "Chatni"]
+    },
+    {
+      "question": "What is your favourite Country",
+      "answers": ["Nepal", "India", "China", "Japan"]
+    },
+    {
+      "question": "What is your favourite Subject",
+      "answers": ["Fltter", "Python", "Java", "JS"]
     },
   ];
 
@@ -26,32 +41,24 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // question
-            const Question(
-              question: "What is your Favourite Color",
+            Question(
+              question: _questions[currentIndex]["question"].toString(),
             ),
             const SizedBox(
-              height: 40,
+              height: 10,
             ),
-            MyButton(
-              onPressed: () {},
-              text: "Answer 1",
-            ),
-            MyButton(
-              onPressed: () {},
-              text: "Answer 2",
-            ),
-            MyButton(
-              onPressed: () {},
-              text: "Answer 3",
-            ),
-            MyButton(
-              onPressed: () {},
-              text: "Answer 4",
-            ),
+            ...(_questions[currentIndex]['answers'] as List<String>)
+                .map((answer) {
+              return MyButton(
+                  text: answer.toString(),
+                  onPressed: () {
+                    setState(() {
+                      currentIndex += 1;
+                    });
+                  });
+            }).toList(),
           ],
         ),
       ),
