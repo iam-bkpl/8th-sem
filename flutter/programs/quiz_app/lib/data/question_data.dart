@@ -83,6 +83,25 @@ class QuestionData {
         {"id": 3, "text": "Improve system performance", "correct": false},
         {"id": 4, "text": "Optimize server configurations", "correct": false}
       ]
+    },
+    {
+      "question":
+          "What is the purpose of user IDs in database management systems?",
+      "answers": [
+        {"id": 1, "text": "Unique identification of users", "correct": true},
+        {"id": 2, "text": "User interface customization", "correct": false},
+        {"id": 3, "text": "System performance optimization", "correct": false},
+        {"id": 4, "text": "Database structure definition", "correct": false}
+      ]
+    },
+    {
+      "question": "What does the ID attribute in HTML stand for?",
+      "answers": [
+        {"id": 1, "text": "Identifier", "correct": true},
+        {"id": 2, "text": "Instruction Data", "correct": false},
+        {"id": 3, "text": "Interface Definition", "correct": false},
+        {"id": 4, "text": "Internal Directory", "correct": false}
+      ]
     }
   ];
 
