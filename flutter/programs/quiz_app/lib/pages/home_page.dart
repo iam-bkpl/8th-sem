@@ -1,6 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/components/my_button.dart';
+import 'package:quiz_app/data/question_data.dart';
 import 'package:quiz_app/pages/question.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,37 +12,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
+  int score = 0;
   // final Map<String, String> _selectedAnswers = [];
 
-  static const _questions = [
-    {
-      "question": "What is your favourite Color",
-      "answers": ["Green", "Red", "Blue", "Pink"]
-    },
-    {
-      "question": "What is your favourite Food",
-      "answers": ["Dal", "Bhat", "Tarkari", "Chatni"]
-    },
-    {
-      "question": "What is your favourite Country",
-      "answers": ["Nepal", "India", "China", "Japan"]
-    },
-    {
-      "question": "What is your favourite Subject",
-      "answers": ["Fltter", "Python", "Java", "JS"]
-    },
-  ];
+  final List<Map<String, dynamic>> _questions = QuestionData.getQuestions();
 
-  void handleQuestionChange(BuildContext context) {
+  void handleQuestionChange(BuildContext context, correct) {
     if (currentIndex < _questions.length - 1) {
       setState(() {
         currentIndex += 1;
       });
+      if (correct) {
+        score++;
+      }
     } else {
       showDialog(
         context: context,
-        builder: (context) => const AlertDialog(
-          title: Text("Congratulation you Completed the task"),
+        builder: (context) => AlertDialog(
+          title: Text("You Scored $score / ${_questions.length}"),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
       );
     }
@@ -60,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Question no $currentIndex",
+              "Question no $currentIndex / ${_questions.length}",
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(
@@ -72,13 +60,30 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            ...(_questions[currentIndex]['answers'] as List<String>)
-                .map((answer) {
-              return MyButton(
-                text: answer.toString(),
-                onPressed: () => handleQuestionChange(context),
-              );
-            }).toList(),
+            // ...(_questions[currentIndex]['answers'] as List <
+            //         Map<String, Object>)
+            //     .map((answer) {
+            //   return MyButton(
+            //     text: answer.toString(),
+            //     onPressed: () => handleQuestionChange(context),
+            //   );
+            // }).toList(),
+
+            ...(_questions[currentIndex]['answers']
+                        as List<Map<String, Object>>?)
+                    ?.map((answer) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: MyButton(
+                      text: answer['text']
+                          .toString(), // Accessing the 'text' field of the answer map
+                      onPressed: () =>
+                          handleQuestionChange(context, answer["correct"]),
+                    ),
+                  );
+                }).toList() ??
+                [],
+
             const SizedBox(
               height: 20,
             ),
